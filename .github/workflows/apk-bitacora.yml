@@ -21,6 +21,11 @@ jobs:
       with:
         accept-android-sdk-licenses: true
     - run: echo "sdk.dir=${ANDROID_HOME}" > local.properties
+    - name: Version
+      run: |
+        sed -i "s/versionName = \".*\"/versionName = \"1.10.${{ github.run_number }}\"/" app/build.gradle.kts
+        sed -i "s/versionCode = [0-9]*/versionCode = $((1000 + ${{ github.run_number }}))/" app/build.gradle.kts
+        grep -n "versionName\|versionCode" app/build.gradle.kts
     - name: Build APK
       run: ./gradlew assembleDebug --stacktrace
     - name: Rename APK
@@ -28,7 +33,12 @@ jobs:
     - name: Publish release
       uses: softprops/action-gh-release@v3
       with:
-        tag_name: bitacora-${{ github.run_number }}
-        name: HC Export Bitácora ${{ github.run_number }}
-        body: Versión corregida para la Bitácora de Salud (sueño por día de despertar, una sola fuente, sin copias).
+        tag_name: v1.10.${{ github.run_number }}
+        name: HC Export Bitácora 1.10.${{ github.run_number }}
+        body: |
+          Versión para la Bitácora de Salud.
+          - Cada noche cuenta para el día en que despiertas, desde una sola fuente y sin copias.
+          - Envía cada sesión de sueño con su hora de inicio y fin.
+          - Al instalarla envía los últimos 30 días; cada 2 horas reenvía ayer y hoy.
+          - Interfaz en español.
         files: HC-Export-Bitacora.apk

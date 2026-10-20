@@ -145,6 +145,7 @@
     <string name="locale_system">System</string>
     <string name="locale_en">English</string>
     <string name="locale_ru">Russian</string>
+    <string name="locale_es">Spanish</string>
 
     <!-- Frequency -->
     <string name="freq_manual">Manual</string>
@@ -269,9 +270,9 @@
     <string name="release_notes_unavailable">Release notes are unavailable.</string>
     <string name="close">Close</string>
     <string name="github_repository">Open repository</string>
-    <string name="github_url" translatable="false">https://github.com/kas-cor/healthconnect-export</string>
-    <string name="releases_url" translatable="false">https://github.com/kas-cor/healthconnect-export/releases/latest</string>
-    <string name="api_releases_url" translatable="false">https://api.github.com/repos/kas-cor/healthconnect-export/releases/latest</string>
+    <string name="github_url" translatable="false">https://github.com/nachojrs/healthconnect-export</string>
+    <string name="releases_url" translatable="false">https://github.com/nachojrs/healthconnect-export/releases/latest</string>
+    <string name="api_releases_url" translatable="false">https://api.github.com/repos/nachojrs/healthconnect-export/releases/latest</string>
     <string name="nav_schedule">Plan</string>
     <string name="notification_channel_export">Scheduled export</string>
     <string name="notification_channel_export_desc">Shown while a scheduled export reads and delivers your health data.</string>

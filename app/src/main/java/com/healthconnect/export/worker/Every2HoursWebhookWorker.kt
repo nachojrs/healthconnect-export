@@ -79,11 +79,12 @@ class Every2HoursWebhookWorker(
                 // app is in the foreground or running as a foreground service.
                 ExportForegroundNotifier.promoteToForeground(this@Every2HoursWebhookWorker)
 
-                // Read today's data
+                // Read yesterday and today: yesterday's last hours (after the previous run) are then
+                // delivered too, and a day is never left incomplete
                 val today = LocalDate.now()
                 val records =
                     healthRepo.readPeriodInBatch(
-                        startDate = today,
+                        startDate = today.minusDays(1),
                         endDate = today,
                         types = config.enabledTypes,
                         selectedSourcePackage = config.selectedSourcePackage,

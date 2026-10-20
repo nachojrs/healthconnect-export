@@ -46,6 +46,7 @@ object LocaleManager {
     fun localeDisplayName(code: String?): String =
         when (code) {
             "ru" -> "Русский"
+            "es" -> "Español"
             "en" -> "English"
             else -> "System"
         }

@@ -1,0 +1,275 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">HC Export Bitácora</string>
+    <string name="app_title">HC Export Bitácora</string>
+
+    <!-- Theme toggle -->
+    <string name="theme_follow_system">Seguir al sistema</string>
+    <string name="theme_switch_light">Cambiar a claro</string>
+    <string name="theme_switch_dark">Cambiar a oscuro</string>
+
+    <!-- Drive Status -->
+    <string name="drive_not_connected">Google Drive no está conectado</string>
+    <string name="drive_connected">Google Drive conectado</string>
+    <string name="drive_syncing">Sincronizando…</string>
+    <string name="drive_synced">Sincronizados: %d archivos</string>
+    <string name="drive_error">Error: %s</string>
+    <string name="sign_in">Iniciar sesión en Google</string>
+    <string name="sync_now">Sincronizar</string>
+    <string name="sign_out">Cerrar sesión</string>
+
+    <!-- Scheduled Export -->
+    <string name="scheduled_export">Exportación programada</string>
+    <string name="enable_schedule">Activar programación</string>
+    <string name="disable">Desactivar</string>
+    <string name="next_run">Próxima vez: en 24 h</string>
+    <string name="schedule_set">Exportación programada: %s</string>
+    <string name="schedule_cancelled">Exportación programada cancelada</string>
+
+    <!-- Background delivery diagnostics -->
+    <string name="delivery_status_title">Envío en segundo plano</string>
+    <string name="delivery_last_attempt">Último intento: %1$s</string>
+    <string name="delivery_last_success">Último envío correcto: %1$s</string>
+    <string name="delivery_never">nunca</string>
+    <string name="delivery_refresh">Actualizar</string>
+    <string name="delivery_log_button">Registro de envíos</string>
+    <string name="delivery_log_title">Registro de envíos</string>
+    <string name="delivery_log_empty">Todavía no hay registros</string>
+    <string name="delivery_close">Cerrar</string>
+
+    <!-- Battery optimization -->
+    <string name="battery_optimization_title">Ahorro de batería</string>
+    <string name="battery_optimization_exempt">Trabajo en segundo plano permitido</string>
+    <string name="battery_optimization_restricted">Restringido: el sistema puede atrasar los envíos en segundo plano</string>
+    <string name="battery_optimization_button">Permitir trabajo en segundo plano</string>
+    <string name="battery_optimization_unavailable">No se pudo abrir el ajuste de ahorro de batería</string>
+
+    <!-- Data Types -->
+    <string name="data_types">Tipos de datos</string>
+    <string name="select_all">Seleccionar todo</string>
+    <string name="deselect_all">Quitar todo</string>
+    <string name="expand_section">Abrir sección</string>
+    <string name="collapse_section">Cerrar sección</string>
+    <string name="expand_all">Abrir todo</string>
+    <string name="collapse_all">Cerrar todo</string>
+    <string name="category_activity">Actividad</string>
+    <string name="category_vitals">Signos vitales</string>
+    <string name="category_body">Cuerpo</string>
+
+    <!-- Data type names -->
+    <string name="data_type_STEPS">Pasos</string>
+    <string name="data_type_HEART_RATE">Pulso</string>
+    <string name="data_type_SLEEP">Sueño</string>
+    <string name="data_type_CALORIES">Calorías</string>
+    <string name="data_type_DISTANCE">Distancia</string>
+    <string name="data_type_FLOORS_CLIMBED">Pisos subidos</string>
+    <string name="data_type_ACTIVE_CALORIES">Calorías activas</string>
+    <string name="data_type_WEIGHT">Peso</string>
+    <string name="data_type_BODY_FAT">Grasa corporal</string>
+    <string name="data_type_BLOOD_PRESSURE">Presión arterial</string>
+    <string name="data_type_BLOOD_GLUCOSE">Glucosa en sangre</string>
+    <string name="data_type_OXYGEN_SATURATION">Oxígeno en sangre</string>
+    <string name="data_type_BODY_TEMPERATURE">Temperatura corporal</string>
+    <string name="data_type_RESPIRATORY_RATE">Frecuencia respiratoria</string>
+    <string name="data_type_HYDRATION">Agua</string>
+    <string name="data_type_RESTING_HEART_RATE">Pulso en reposo</string>
+    <string name="data_type_EXERCISE">Ejercicio</string>
+    <string name="data_type_NUTRITION">Comida</string>
+    <string name="data_type_SPEED">Velocidad</string>
+    <string name="data_type_MENSTRUATION">Menstruación</string>
+
+    <!-- Export Period -->
+    <string name="export_period">Periodo a exportar</string>
+    <string name="days_7">7 días</string>
+    <string name="days_30">30 días</string>
+    <string name="from_label">Desde</string>
+    <string name="to_label">Hasta</string>
+
+    <!-- Auto-sync -->
+    <string name="auto_sync_drive">Sincronizar con Google Drive</string>
+
+    <!-- Export Button -->
+    <string name="export_data_types">Exportar %d tipos de datos</string>
+    <string name="exported_files_title">Archivos exportados (%d)</string>
+    <string name="exported_files_total_size">Total: %1$s</string>
+    <string name="exported_files_show_all">Ver todos los archivos (%1$d)</string>
+    <string name="exported_files_show_less">Ver menos</string>
+
+    <!-- File actions -->
+    <string name="share_file">Compartir archivo</string>
+    <string name="share_file_error">No se pudo compartir el archivo</string>
+    <string name="file_deleted">%1$s borrado</string>
+    <string name="file_delete_title">¿Borrar el archivo?</string>
+    <string name="file_delete_message">¿Borrar %1$s? No se puede deshacer.</string>
+    <string name="file_delete_confirm">Borrar</string>
+    <string name="file_delete_cancel">Cancelar</string>
+
+    <!-- Export format -->
+    <string name="export_format_title">Formato de exportación</string>
+    <string name="export_format_label">Formato</string>
+    <string name="export_format_json">JSON</string>
+    <string name="export_format_csv">CSV</string>
+    <string name="export_format_csv_note">El CSV trae solo totales y promedios por día; el detalle (etapas del sueño, ejercicios, comidas) está en JSON.</string>
+
+    <!-- Data retention -->
+    <string name="retention_title">Conservación de archivos</string>
+    <string name="retention_enable">Borrar archivos antiguos</string>
+    <string name="retention_days_label">Guardar archivos por</string>
+    <string name="retention_days_format">%1$d días</string>
+    <string name="retention_hint">Los archivos más antiguos que este periodo se borran solos al abrir la app y después de cada exportación.</string>
+
+    <!-- Schedule time of day -->
+    <string name="schedule_time_label">Hora de exportación</string>
+    <string name="schedule_time_default">Predeterminada</string>
+
+    <!-- File sizes -->
+    <string name="file_size_bytes">%d B</string>
+    <string name="file_size_kb">%d KB</string>
+    <string name="file_size_mb">%.1f MB</string>
+
+    <!-- Webhook -->
+    <string name="webhook">Webhook</string>
+    <string name="webhook_url_label">Dirección del webhook</string>
+    <string name="webhook_url_placeholder">https://example.com/api/health-data</string>
+    <string name="bearer_token_label">Token Bearer (opcional)</string>
+    <string name="bearer_token_placeholder">sk-…</string>
+    <string name="enter_url_first">Primero escribe la dirección del webhook</string>
+    <string name="send_json">Enviar al webhook después de exportar</string>
+
+    <!-- Webhook errors -->
+    <string name="webhook_server_error">El servidor respondió con el código %1$d: %2$s</string>
+    <string name="webhook_unknown_error">Error desconocido</string>
+
+    <!-- Locale selector -->
+    <string name="locale_switch">Idioma</string>
+    <string name="locale_system">Del sistema</string>
+    <string name="locale_en">Inglés</string>
+    <string name="locale_ru">Ruso</string>
+    <string name="locale_es">Español</string>
+
+    <!-- Frequency -->
+    <string name="freq_manual">Manual</string>
+    <string name="freq_daily">Diaria</string>
+    <string name="freq_weekly">Semanal</string>
+
+    <!-- Data Source Selection -->
+    <string name="data_source">Fuente de datos</string>
+    <string name="source_auto">Automática (recomendada)</string>
+    <string name="source_auto_desc">Elige sola la mejor fuente</string>
+    <string name="scanning_sources">Buscando fuentes de datos…</string>
+    <string name="no_sources_found">No se encontraron fuentes de datos</string>
+    <string name="refresh_sources">Buscar fuentes de nuevo</string>
+    <string name="refresh">Actualizar</string>
+
+    <!-- ViewModel messages -->
+    <string name="vm_check_permissions">Revisando permisos…</string>
+    <string name="vm_permissions_required">Faltan permisos de Health Connect. Confírmalos en la ventana que se abrió.</string>
+    <string name="vm_reading_data">Leyendo datos…</string>
+    <string name="vm_saving_days">Guardando %d días…</string>
+    <string name="vm_saved_files">%d archivos guardados</string>
+    <string name="vm_export_complete">Exportación lista: %d archivos</string>
+    <string name="vm_export_error">Error al exportar: %s</string>
+    <string name="vm_sending_webhook">Enviando al webhook…</string>
+    <string name="vm_webhook_success">Webhook: envío correcto (%d)</string>
+    <string name="vm_webhook_error">Webhook: error %1$d. %2$s</string>
+    <string name="vm_permissions_granted">Permisos listos. Empezando la exportación…</string>
+    <string name="vm_permissions_missing">Faltan permisos de Health Connect para: %s. No se puede exportar. Abre Health Connect y da acceso a esos tipos de datos.</string>
+    <string name="vm_drive_connected">Cuenta de Google conectada: %s</string>
+    <string name="vm_drive_signin_failed">No se pudo iniciar sesión en Google</string>
+    <string name="vm_drive_access_required">Para sincronizar hace falta acceso a Google Drive</string>
+    <string name="vm_drive_access_denied">No se dio acceso a Google Drive</string>
+    <string name="vm_drive_signed_out">Sesión de Google cerrada</string>
+    <string name="vm_drive_not_connected">Google Drive no está conectado</string>
+    <string name="vm_drive_synced">Sincronizado con Drive: %d archivos</string>
+    <string name="vm_invalid_url">Dirección no válida. Debe empezar con http:// o https://</string>
+    <string name="vm_health_not_available">No se pudo conectar con Health Connect. Vuelve a abrir la app.</string>
+    <string name="vm_health_not_installed">Health Connect no está instalado. Instálalo desde Google Play.</string>
+    <string name="vm_no_data_types">Elige al menos un tipo de dato</string>
+    <string name="vm_invalid_date_range">La fecha de inicio no puede ser posterior a la de término</string>
+
+    <!-- JSON Viewer -->
+    <string name="json_viewer_title">%s</string>
+    <string name="json_viewer_close">Cerrar</string>
+    <string name="json_viewer_open_error">No se pudo leer el archivo</string>
+    <string name="json_viewer_copy">Copiar</string>
+
+    <!-- Dashboard Summary -->
+    <string name="dashboard_title">Resumen de la exportación</string>
+    <string name="dashboard_period">%1$s – %2$s (%3$d días)</string>
+    <string name="dashboard_steps">Pasos</string>
+    <string name="dashboard_avg_hr">Pulso promedio</string>
+    <string name="dashboard_calories">Calorías</string>
+    <string name="dashboard_distance">Distancia</string>
+    <string name="dashboard_avg_sleep">Sueño promedio</string>
+    <string name="dashboard_active_calories">Cal. activas</string>
+    <string name="dashboard_dismiss">Cerrar</string>
+    <string name="dashboard_label_steps">Pasos</string>
+    <string name="dashboard_label_hr">Pulso</string>
+    <string name="dashboard_label_calories">kcal</string>
+    <string name="dashboard_label_distance">Dist.</string>
+    <string name="dashboard_label_sleep">Sueño</string>
+    <string name="dashboard_label_active_cal">Activas</string>
+    <string name="dashboard_no_data">—</string>
+
+    <!-- Export Progress -->
+    <string name="export_progress_reading">Leyendo %s…</string>
+    <string name="export_progress_page">%1$s  •  página %2$d</string>
+    <string name="export_progress_saving">Guardando %s…</string>
+
+    <!-- Every 2 Hours Webhook -->
+    <string name="every_2_hours_webhook">Enviar los datos cada 2 horas (solo webhook)</string>
+    <string name="enter_url_first_every_2h">Primero escribe la dirección del webhook</string>
+    <string name="every_2_hours_enabled">Envío cada 2 horas activado</string>
+    <string name="every_2_hours_disabled">Envío cada 2 horas desactivado</string>
+
+    <!-- Webhook test -->
+    <string name="webhook_test">Probar webhook</string>
+    <string name="webhook_testing">Probando el webhook con los datos de hoy…</string>
+    <string name="vm_webhook_test_success">Prueba del webhook: correcta (%d)</string>
+    <string name="vm_webhook_test_error">Prueba del webhook: error %1$d. %2$s</string>
+    <string name="vm_webhook_no_data">Todavía no hay datos de salud de hoy</string>
+
+    <!-- Cancel -->
+    <string name="cancel_export">Cancelar</string>
+    <string name="vm_export_cancelled">Exportación cancelada</string>
+
+    <!-- Health Connect access limitation -->
+    <string name="health_connect_access_limit">Los datos de salud pueden estar limitados a los últimos 30 días</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_export">Exportar</string>
+    <string name="nav_history">Historial</string>
+    <string name="nav_integrations">Envíos</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="history_empty_title">Todavía no hay exportaciones</string>
+    <string name="history_empty_description">Las exportaciones terminadas aparecen aquí.</string>
+    <string name="appearance">Apariencia</string>
+    <string name="health_connect_access">Acceso a Health Connect</string>
+
+    <string name="theme_label">Tema</string>
+    <string name="theme_system">Del sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="language_label">Idioma</string>
+    <string name="about">Acerca de</string>
+    <string name="app_description">Envía los datos de Health Connect a la Bitácora de Salud: cada noche cuenta para el día en que despiertas.</string>
+    <string name="version_format">Versión %1$s</string>
+    <string name="check_for_updates">Buscar actualizaciones</string>
+    <string name="checking_for_updates">Buscando actualizaciones…</string>
+    <string name="up_to_date">Tienes la última versión</string>
+    <string name="update_available">Hay una versión nueva: %1$s</string>
+    <string name="update_download">Descargar</string>
+    <string name="update_check_error">No se pudo buscar actualizaciones</string>
+    <string name="retry">Reintentar</string>
+    <string name="whats_new">Novedades</string>
+    <string name="whats_new_title">Novedades de la versión %1$s</string>
+    <string name="update_available_badge">Hay una versión nueva. Toca para ver las novedades.</string>
+    <string name="release_notes_unavailable">Las novedades no están disponibles.</string>
+    <string name="close">Cerrar</string>
+    <string name="github_repository">Abrir el repositorio</string>
+    <string name="nav_schedule">Plan</string>
+    <string name="notification_channel_export">Exportación programada</string>
+    <string name="notification_channel_export_desc">Se muestra mientras una exportación programada lee y envía tus datos de salud.</string>
+    <string name="notification_export_title">Enviando datos de salud</string>
+    <string name="notification_export_text">Leyendo y enviando tus datos de salud…</string>
+</resources>

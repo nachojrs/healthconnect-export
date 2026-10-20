@@ -144,6 +144,7 @@
     <string name="locale_switch">Язык</string>
     <string name="locale_system">Системный</string>
     <string name="locale_en">Английский</string>
+    <string name="locale_es">Испанский</string>
     <string name="locale_ru">Русский</string>
 
     <!-- Frequency -->
