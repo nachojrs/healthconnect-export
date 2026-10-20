@@ -268,14 +268,19 @@ class HealthConnectRepository(
         )
     }
 
-    private fun extractSleep(records: List<SleepSessionRecord>): SleepData? {
+    private fun extractSleep(
+        records: List<SleepSessionRecord>,
+        selectedSourcePackage: String? = null,
+    ): SleepData? {
         if (records.isEmpty()) return null
+        val kept = dedupeSleep(filterByPreferredOrigin(records, selectedSourcePackage))
+        if (kept.isEmpty()) return null
         val totalMinutes =
-            records.sumOf {
+            kept.sumOf {
                 ChronoUnit.MINUTES.between(it.startTime, it.endTime)
             }
         val stageDurations = mutableMapOf<String, Long>()
-        records.forEach { record ->
+        kept.forEach { record ->
             record.stages.forEach { stage ->
                 val name = sleepStageToString(stage.stage) ?: "Unknown"
                 val duration = ChronoUnit.MINUTES.between(stage.startTime, stage.endTime)
@@ -287,8 +292,36 @@ class HealthConnectRepository(
         return SleepData(
             totalDurationMinutes = totalMinutes,
             sleepStages = stageDurations,
-            recordsCount = records.size,
+            recordsCount = kept.size,
+            sessions =
+                kept.map {
+                    SleepSessionData(
+                        startTime = it.startTime.toDateTimeString(),
+                        endTime = it.endTime.toDateTimeString(),
+                        durationMinutes = ChronoUnit.MINUTES.between(it.startTime, it.endTime),
+                        source = it.metadata.dataOrigin.packageName,
+                    )
+                },
         )
+    }
+
+    /**
+     * The same night can be written more than once by one app (a preliminary and a final version).
+     * Overlapping sessions are collapsed into the longest one, so a night is never counted twice.
+     */
+    private fun dedupeSleep(records: List<SleepSessionRecord>): List<SleepSessionRecord> {
+        val kept = mutableListOf<SleepSessionRecord>()
+        records.sortedBy { it.startTime }.forEach { record ->
+            val last = kept.lastOrNull()
+            if (last != null && record.startTime.isBefore(last.endTime)) {
+                val lastMinutes = ChronoUnit.MINUTES.between(last.startTime, last.endTime)
+                val minutes = ChronoUnit.MINUTES.between(record.startTime, record.endTime)
+                if (minutes > lastMinutes) kept[kept.size - 1] = record
+            } else {
+                kept.add(record)
+            }
+        }
+        return kept
     }
 
     private fun extractCalories(
@@ -509,8 +542,9 @@ class HealthConnectRepository(
             HealthDataType.SLEEP to
                 TypeHandler(
                     SleepSessionRecord::class,
-                    { (it as SleepSessionRecord).startTime },
-                    { r, _ -> extractSleep(r as List<SleepSessionRecord>) },
+                    // A night belongs to the day you wake up (23:30 -> 07:00 counts for the morning it ends)
+                    { (it as SleepSessionRecord).endTime },
+                    { r, p -> extractSleep(r as List<SleepSessionRecord>, p) },
                     { r, d -> r.copy(sleep = d as SleepData?) },
                 ),
             HealthDataType.CALORIES to
@@ -667,7 +701,17 @@ class HealthConnectRepository(
                 ) { _, page -> onPageProgress?.invoke(typeName, page) }
             }
 
-        val byDay = allRecords.groupBy { record -> clampToWindow(handler.timeSelector(record), startDate, endDate).toString() }
+        val byDay =
+            if (type == HealthDataType.SLEEP) {
+                // Sleep is never clamped: a night that ended before the window belongs to its own day,
+                // and clamping it would add it to the first day of the window (counting it twice).
+                allRecords
+                    .map { record -> handler.timeSelector(record).atZone(ZoneId.systemDefault()).toLocalDate() to record }
+                    .filter { (day, _) -> !day.isBefore(startDate) && !day.isAfter(endDate) }
+                    .groupBy({ it.first.toString() }, { it.second })
+            } else {
+                allRecords.groupBy { record -> clampToWindow(handler.timeSelector(record), startDate, endDate).toString() }
+            }
         byDay.forEach { (dateStr, records) ->
             // Only reachable if the caller seeded daysMap with a different window.
             val existing = daysMap[dateStr] ?: return@forEach

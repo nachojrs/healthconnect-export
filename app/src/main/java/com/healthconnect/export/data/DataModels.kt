@@ -54,6 +54,16 @@ data class SleepData(
     @SerialName("total_duration_minutes") val totalDurationMinutes: Long,
     @SerialName("sleep_stages") val sleepStages: Map<String, Long>,
     @SerialName("records_count") val recordsCount: Int,
+    @SerialName("sessions") val sessions: List<SleepSessionData> = emptyList(),
+)
+
+/** One sleep session as counted for the day: when it started and ended, and which app wrote it. */
+@Serializable
+data class SleepSessionData(
+    @SerialName("start_time") val startTime: String,
+    @SerialName("end_time") val endTime: String,
+    @SerialName("duration_minutes") val durationMinutes: Long,
+    @SerialName("source") val source: String,
 )
 
 @Serializable

@@ -51,6 +51,7 @@ android {
 
     buildTypes {
         debug {
+            applicationIdSuffix = ".bitacora"
             isDebuggable = true
             enableUnitTestCoverage = true
         }

@@ -35,7 +35,7 @@ class CatchUpWebhookWorker(
         const val MAX_CATCH_UP_DAYS = 30L
 
         /** Window used when nothing has ever been delivered. */
-        const val FIRST_RUN_DAYS = 7L
+        const val FIRST_RUN_DAYS = 30L
     }
 
     internal var healthRepo = HealthConnectRepository(applicationContext)
