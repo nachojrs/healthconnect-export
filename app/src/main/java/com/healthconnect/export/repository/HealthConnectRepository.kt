@@ -280,12 +280,14 @@ class HealthConnectRepository(
                 ChronoUnit.MINUTES.between(it.startTime, it.endTime)
             }
         val stageDurations = mutableMapOf<String, Long>()
+        val stageCodes = mutableMapOf<String, Long>()
         kept.forEach { record ->
             record.stages.forEach { stage ->
                 val name = sleepStageToString(stage.stage) ?: "Unknown"
                 val duration = ChronoUnit.MINUTES.between(stage.startTime, stage.endTime)
                 if (duration > 0) {
                     stageDurations[name] = (stageDurations[name] ?: 0) + duration
+                    stageCodes[stage.stage.toString()] = (stageCodes[stage.stage.toString()] ?: 0) + duration
                 }
             }
         }
@@ -293,6 +295,7 @@ class HealthConnectRepository(
             totalDurationMinutes = totalMinutes,
             sleepStages = stageDurations,
             recordsCount = kept.size,
+            stageCodes = stageCodes,
             sessions =
                 kept.map {
                     SleepSessionData(
@@ -456,6 +459,7 @@ class HealthConnectRepository(
                 durationMinutes = ChronoUnit.MINUTES.between(record.startTime, record.endTime),
                 title = record.title,
                 notes = record.notes,
+                exerciseTypeCode = record.exerciseType,
             )
         }
     }
@@ -701,17 +705,14 @@ class HealthConnectRepository(
                 ) { _, page -> onPageProgress?.invoke(typeName, page) }
             }
 
+        // Records are never clamped: one that belongs to a day outside the window (a night that ended,
+        // or calories counted, before it starts) stays on its own day. Clamping added it to the first
+        // day of the window, counting it twice (and that day is always sent on its own as well).
         val byDay =
-            if (type == HealthDataType.SLEEP) {
-                // Sleep is never clamped: a night that ended before the window belongs to its own day,
-                // and clamping it would add it to the first day of the window (counting it twice).
-                allRecords
-                    .map { record -> handler.timeSelector(record).atZone(ZoneId.systemDefault()).toLocalDate() to record }
-                    .filter { (day, _) -> !day.isBefore(startDate) && !day.isAfter(endDate) }
-                    .groupBy({ it.first.toString() }, { it.second })
-            } else {
-                allRecords.groupBy { record -> clampToWindow(handler.timeSelector(record), startDate, endDate).toString() }
-            }
+            allRecords
+                .map { record -> handler.timeSelector(record).atZone(ZoneId.systemDefault()).toLocalDate() to record }
+                .filter { (day, _) -> !day.isBefore(startDate) && !day.isAfter(endDate) }
+                .groupBy({ it.first.toString() }, { it.second })
         byDay.forEach { (dateStr, records) ->
             // Only reachable if the caller seeded daysMap with a different window.
             val existing = daysMap[dateStr] ?: return@forEach

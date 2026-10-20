@@ -26,10 +26,24 @@ jobs:
         sed -i "s/versionName = \".*\"/versionName = \"1.10.${{ github.run_number }}\"/" app/build.gradle.kts
         sed -i "s/versionCode = [0-9]*/versionCode = $((1000 + ${{ github.run_number }}))/" app/build.gradle.kts
         grep -n "versionName\|versionCode" app/build.gradle.kts
+    - name: Signing key
+      env:
+        FIRMA: ${{ secrets.FIRMA_BITACORA }}
+      run: |
+        # Without the fixed key the APK would not install over the previous version: stop here
+        if [ -z "$FIRMA" ]; then echo "Falta el secreto FIRMA_BITACORA"; exit 1; fi
+        printf '%s' "${FIRMA#*:}" | base64 -d > bitacora.p12
+        echo "::add-mask::${FIRMA%%:*}"
+        echo "BITACORA_KEY_PASSWORD=${FIRMA%%:*}" >> "$GITHUB_ENV"
     - name: Build APK
       run: ./gradlew assembleDebug --stacktrace
     - name: Rename APK
       run: cp app/build/outputs/apk/debug/app-debug.apk HC-Export-Bitacora.apk
+    - name: Check signature
+      run: |
+        APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+        "$APKSIGNER" verify --print-certs HC-Export-Bitacora.apk | tee firma.txt
+        grep -qi "SHA-256 digest: 6f2d93a71f7837f0c78e550303e015ec7a4458a735b9fab8da327920fe3ba645" firma.txt
     - name: Publish release
       uses: softprops/action-gh-release@v3
       with:
@@ -41,4 +55,7 @@ jobs:
           - Envía cada sesión de sueño con su hora de inicio y fin.
           - Al instalarla envía los últimos 30 días; cada 2 horas reenvía ayer y hoy.
           - Interfaz en español.
+          - Firma fija: las versiones nuevas se instalan encima sin perder la configuración.
+          - Ningún dato de antes del periodo se suma al primer día (calorías, pasos, sueño).
+          - Envía el código oficial de cada etapa del sueño y de cada ejercicio.
         files: HC-Export-Bitacora.apk

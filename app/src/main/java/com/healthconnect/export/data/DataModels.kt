@@ -55,6 +55,8 @@ data class SleepData(
     @SerialName("sleep_stages") val sleepStages: Map<String, Long>,
     @SerialName("records_count") val recordsCount: Int,
     @SerialName("sessions") val sessions: List<SleepSessionData> = emptyList(),
+    // Minutes per stage keyed by the Health Connect STAGE_TYPE_* code ("4" light, "5" deep, "6" REM...)
+    @SerialName("stage_codes") val stageCodes: Map<String, Long> = emptyMap(),
 )
 
 /** One sleep session as counted for the day: when it started and ended, and which app wrote it. */
@@ -159,6 +161,8 @@ data class ExerciseData(
     @SerialName("duration_minutes") val durationMinutes: Long,
     @SerialName("title") val title: String? = null,
     @SerialName("notes") val notes: String? = null,
+    // Health Connect EXERCISE_TYPE_* code (the name above comes from a list that does not match it)
+    @SerialName("exercise_type_code") val exerciseTypeCode: Int? = null,
 )
 
 @Serializable

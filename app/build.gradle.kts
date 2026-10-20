@@ -41,6 +41,15 @@ android {
     }
 
     signingConfigs {
+        // Fixed key for the Bitácora builds (CI writes it from the FIRMA_BITACORA secret), so every
+        // new version installs over the previous one instead of needing a fresh install
+        create("bitacora") {
+            storeFile = rootProject.file("bitacora.p12")
+            storeType = "pkcs12"
+            storePassword = System.getenv("BITACORA_KEY_PASSWORD") ?: ""
+            keyAlias = "bitacora"
+            keyPassword = System.getenv("BITACORA_KEY_PASSWORD") ?: ""
+        }
         create("release") {
             storeFile = rootProject.file("healthconnect-release.jks")
             storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
@@ -52,6 +61,9 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".bitacora"
+            if (rootProject.file("bitacora.p12").exists()) {
+                signingConfig = signingConfigs.getByName("bitacora")
+            }
             isDebuggable = true
             enableUnitTestCoverage = true
         }

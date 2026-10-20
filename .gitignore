@@ -38,3 +38,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Firma de la versión Bitácora (la escribe el flujo de GitHub desde un secreto)
+bitacora.p12
