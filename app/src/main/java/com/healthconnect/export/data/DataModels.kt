@@ -66,6 +66,8 @@ data class SleepSessionData(
     @SerialName("end_time") val endTime: String,
     @SerialName("duration_minutes") val durationMinutes: Long,
     @SerialName("source") val source: String,
+    // Minutes per Health Connect STAGE_TYPE_* code for this session only
+    @SerialName("stage_codes") val stageCodes: Map<String, Long> = emptyMap(),
 )
 
 @Serializable
@@ -163,6 +165,9 @@ data class ExerciseData(
     @SerialName("notes") val notes: String? = null,
     // Health Connect EXERCISE_TYPE_* code (the name above comes from a list that does not match it)
     @SerialName("exercise_type_code") val exerciseTypeCode: Int? = null,
+    // Heart rate during the session, from the heart-rate samples that fall inside it
+    @SerialName("avg_bpm") val avgBpm: Long? = null,
+    @SerialName("max_bpm") val maxBpm: Long? = null,
 )
 
 @Serializable

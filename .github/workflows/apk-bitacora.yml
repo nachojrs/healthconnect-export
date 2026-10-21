@@ -49,6 +49,7 @@ jobs:
       uses: softprops/action-gh-release@v3
       with:
         tag_name: v1.10.${{ github.run_number }}
+        target_commitish: ${{ github.sha }}
         name: HC Export Bitácora 1.10.${{ github.run_number }}
         body: |
           Versión para la Bitácora de Salud.
@@ -59,4 +60,6 @@ jobs:
           - Firma fija: las versiones nuevas se instalan encima sin perder la configuración.
           - Ningún dato de antes del periodo se suma al primer día (calorías, pasos, sueño).
           - Envía el código oficial de cada etapa del sueño y de cada ejercicio.
+          - Etapas del sueño de cada sesión por separado (la siesta no se mezcla con la noche).
+          - Pulso promedio y máximo de cada entrenamiento, cuando Health Connect tiene pulso.
         files: HC-Export-Bitacora.apk

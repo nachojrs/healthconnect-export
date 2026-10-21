@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import kotlin.reflect.KClass
@@ -303,6 +304,11 @@ class HealthConnectRepository(
                         endTime = it.endTime.toDateTimeString(),
                         durationMinutes = ChronoUnit.MINUTES.between(it.startTime, it.endTime),
                         source = it.metadata.dataOrigin.packageName,
+                        stageCodes =
+                            it.stages
+                                .groupBy { st -> st.stage.toString() }
+                                .mapValues { (_, l) -> l.sumOf { st -> ChronoUnit.MINUTES.between(st.startTime, st.endTime) } }
+                                .filterValues { m -> m > 0 },
                     )
                 },
         )
@@ -685,7 +691,7 @@ class HealthConnectRepository(
         endDate: LocalDate,
         selectedSourcePackage: String?,
         onPageProgress: ((typeName: String, pageNumber: Int) -> Unit)?,
-    ) {
+    ): List<Record> {
         val typeName = type.displayName
         // When a specific source is selected, push the filter down to the API so we don't
         // read (and then discard) records from every other source. In auto mode we still
@@ -720,6 +726,31 @@ class HealthConnectRepository(
         }
 
         Log.d(TAG, "readPeriodInBatch ${type.name}: total=${allRecords.size}, days=${byDay.size}")
+        return allRecords
+    }
+
+    /** Adds the average and maximum heart rate during each exercise session, from the samples inside it. */
+    private fun addExerciseHeartRate(
+        daysMap: MutableMap<String, DailyHealthRecord>,
+        heartRate: List<HeartRateRecord>,
+    ) {
+        val samples = heartRate.flatMap { it.samples }.sortedBy { it.time }
+        if (samples.isEmpty()) return
+        daysMap.entries.forEach { (dateStr, rec) ->
+            val list = rec.exercises ?: return@forEach
+            val updated =
+                list.map { ex ->
+                    try {
+                        val a = LocalDateTime.parse(ex.startTime).atZone(ZoneId.systemDefault()).toInstant()
+                        val b = LocalDateTime.parse(ex.endTime).atZone(ZoneId.systemDefault()).toInstant()
+                        val bpm = samples.filter { !it.time.isBefore(a) && !it.time.isAfter(b) }.map { it.beatsPerMinute }
+                        if (bpm.isEmpty()) ex else ex.copy(avgBpm = Math.round(bpm.average()), maxBpm = bpm.max())
+                    } catch (e: Exception) {
+                        ex
+                    }
+                }
+            daysMap[dateStr] = rec.copy(exercises = updated)
+        }
     }
 
     /**
@@ -786,14 +817,19 @@ class HealthConnectRepository(
             }
 
             // Process each requested data type through its registered handler
+            var heartRate: List<HeartRateRecord> = emptyList()
             types.forEach { type ->
                 val handler = typeHandlers[type]
                 if (handler != null) {
-                    processTypeData(handler, type, daysMap, timeFilter, startDate, endDate, selectedSourcePackage, onPageProgress)
+                    val read = processTypeData(handler, type, daysMap, timeFilter, startDate, endDate, selectedSourcePackage, onPageProgress)
+                    if (type == HealthDataType.HEART_RATE) heartRate = read.filterIsInstance<HeartRateRecord>()
                 } else {
                     Log.w(TAG, "readPeriodInBatch: no handler registered for $type")
                 }
             }
+
+            // Heart rate during each workout (only when both were read)
+            if (HealthDataType.EXERCISE in types && heartRate.isNotEmpty()) addExerciseHeartRate(daysMap, heartRate)
 
             // Build sorted result list (compatible with minSdk 28)
             val result = mutableListOf<DailyHealthRecord>()
