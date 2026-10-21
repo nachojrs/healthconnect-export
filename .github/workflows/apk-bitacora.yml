@@ -28,7 +28,8 @@ jobs:
         grep -n "versionName\|versionCode" app/build.gradle.kts
     - name: Signing key
       env:
-        FIRMA: ${{ secrets.FIRMA_BITACORA }}
+        # The secret was saved as S1; FIRMA_BITACORA is also accepted
+        FIRMA: ${{ secrets.FIRMA_BITACORA || secrets.S1 }}
       run: |
         # Without the fixed key the APK would not install over the previous version: stop here
         if [ -z "$FIRMA" ]; then echo "Falta el secreto FIRMA_BITACORA"; exit 1; fi
